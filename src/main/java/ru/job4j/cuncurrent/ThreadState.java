@@ -6,21 +6,21 @@ public class ThreadState extends Thread {
         System.out.println(Thread.currentThread());
     }
     public static void main(String[] args) {
-        Thread first = new ThreadState();
-        Thread second = new ThreadState();
+        Thread first = new Thread(
+                () -> { }
+        );
+        Thread second = new Thread(
+                () -> { }
+        );
         first.setName("first");
         second.setName("second");
-        threadStartInfo(first);
-        threadStartInfo(second);
-        System.out.println("All threads has been terminated");
-    }
-
-    private static void threadStartInfo(Thread thread) {
-        System.out.println(thread.getState());
-        thread.start();
-        while (thread.getState() != Thread.State.TERMINATED) {
-            System.out.println(thread.getState());
+        System.out.println(first.getState());
+        first.start();
+        while (first.getState() != Thread.State.TERMINATED
+                && second.getState() != State.TERMINATED) {
+            System.out.println(first.getState());
         }
-        System.out.println(thread.getState());
+        System.out.println(first.getState());
+        System.out.println("All threads has been terminated");
     }
 }
