@@ -1,11 +1,17 @@
-package ru.job4j.cuncurrent;
+package ru.job4j.concurrent;
 
 public class ConsoleProgress implements Runnable {
     @Override
     public void run() {
         int i = 0;
+        char [] charArray = {'/', '\\', '|'};
         while (!Thread.currentThread().isInterrupted()) {
-            System.out.println("Loading..." + i++);
+            System.out.print("\rLoading..." + charArray[i++ % charArray.length]);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         System.out.print("\r load: " + Thread.currentThread().getName());
 

@@ -1,4 +1,4 @@
-package ru.job4j.cuncurrent;
+package ru.job4j.concurrent;
 
 public class ThreadState extends Thread {
     @Override
