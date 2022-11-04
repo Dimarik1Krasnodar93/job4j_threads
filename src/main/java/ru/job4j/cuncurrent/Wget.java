@@ -5,9 +5,15 @@ public class Wget {
         Thread thread1 = new Thread(
                 () -> {
                     try {
+                        char ch;
                         for (int i = 0; i <= 100; i++) {
                             Thread.sleep(1000);
-                            System.out.print("\rLoading : " + i  + "%");
+                            switch (i % 3) {
+                                case 1: ch = '/'; break;
+                                case 2: ch = '\\'; break;
+                                default: ch = '|'; break;
+                            }
+                            System.out.print("\rLoading : " + ch);
                         }
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
