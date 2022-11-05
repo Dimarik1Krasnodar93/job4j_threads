@@ -6,8 +6,9 @@ import java.net.URL;
 public class FileDownload {
     public static void main(String[] args) throws Exception {
         String file = "https://raw.githubusercontent.com/peterarsentev/course_test/master/pom.xml";
+        String fileName = String.format("%s, %s", "_temp_", file.substring(file.lastIndexOf('/') + 1));
         try (BufferedInputStream in = new BufferedInputStream(new URL(file).openStream());
-             FileOutputStream fileOutputStream = new FileOutputStream("pom_tmp.xml")) {
+             FileOutputStream fileOutputStream = new FileOutputStream(fileName)) {
             byte[] dataBuffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {

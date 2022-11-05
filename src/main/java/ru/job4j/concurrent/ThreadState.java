@@ -17,7 +17,7 @@ public class ThreadState extends Thread {
         System.out.println(first.getState());
         first.start();
         while (first.getState() != Thread.State.TERMINATED
-                && second.getState() != State.TERMINATED) {
+                || second.getState() != State.TERMINATED) {
             System.out.println(first.getState());
         }
         System.out.println(first.getState());
