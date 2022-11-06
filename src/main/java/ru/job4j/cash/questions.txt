@@ -1,0 +1,11 @@
+1. private volatile final HashMap<Integer, Account> accounts = new HashMap<>();
+я хотел так сделать. Не дало. Правильно ли я понимаю, что если у меня поле final, оно по умолчанию будет volatile?
+2. Мне непонятно зачем сделали ассаунты как записи, а не как классы. В результате я не мог поменять значение суммы, а мне приходиолось
+перезаполнять постоянно новые аккаунты
+accountFrom = new Account(fromId, accountFrom.amount() - amount);
+            accountTo = new Account(toId, accountTo.amount() + amount);
+            accounts.put(fromId, accountFrom);
+            accounts.put(toId, accountTo);
+Если б был аккаунт как класс, я бы просто взял и поменял через setter значение и все. А теперь куча ненужных (на мой взгляд) действий
+1. Создать новый аккаунт
+2. Поместить новый аккаунт взамен старого в HashMap/
