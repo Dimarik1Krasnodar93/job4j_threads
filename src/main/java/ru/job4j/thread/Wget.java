@@ -18,27 +18,29 @@ public class Wget implements Runnable {
     @Override
     public void run() {
         String file = url;
+        String fileName = String.format("%s, %s", "_temp_", file.substring(file.lastIndexOf('/') + 1));
         try (BufferedInputStream in = new BufferedInputStream(new URL(file).openStream());
-             FileOutputStream fileOutputStream = new FileOutputStream("pom_tmp.xml")) {
+             FileOutputStream fileOutputStream = new FileOutputStream(fileName)) {
             byte[] dataBuffer = new byte[1024];
             int bytesRead;
             long start;
             long end;
-            while (true) {
-                start = System.currentTimeMillis();
-                bytesRead = in.read(dataBuffer, 0, 1024);
-                end = System.currentTimeMillis();
-                if (bytesRead == -1) {
-                    break;
-                }
+            start = System.currentTimeMillis();
+            bytesRead = in.read(dataBuffer, 0, 1024);
+            end = System.currentTimeMillis();
+            int downloadData = 0;
+            while (bytesRead != -1) {
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
+                downloadData += bytesRead;
                 try {
-                    if (end - start < speed) {
-                        Thread.sleep(1000);
+                    if (downloadData >= speed && end - start < 1000) {
+                        downloadData = 0;
+                        Thread.sleep(1000 - (end - start));
                     }
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
+                bytesRead = in.read(dataBuffer, 0, 1024);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,22 +48,22 @@ public class Wget implements Runnable {
     }
 
     public static void main(String[] args) throws InterruptedException {
+        validate(args);
         String url = args[0];
-        if (!validate(url)) {
-            throw new IllegalArgumentException();
-        }
         int speed = Integer.parseInt(args[1]);
         Thread wget = new Thread(new Wget(url, speed));
         wget.start();
         wget.join();
     }
-    private static boolean validate(String url) {
-        try {
-            new URL(url).toURI();
-            return true;
-        } catch (Exception exception) {
-            System.out.println("Illegal arg exception");
-            return false;
+    private static void validate(String[] args) {
+        if (args.length < 2) {
+            throw new IllegalArgumentException("Illegal count of arguments");
+        } else {
+            try {
+                new URL(args[0]).toURI();
+            } catch (Exception exception) {
+                throw new IllegalArgumentException("Illegal arg exception");
+            }
         }
     }
 }
