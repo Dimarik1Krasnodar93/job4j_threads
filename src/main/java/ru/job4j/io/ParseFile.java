@@ -10,16 +10,18 @@ public final class ParseFile {
         this.file = file;
     }
 
-    public String getContent(Predicate<Character> filter) throws IOException {
-        InputStream i = new FileInputStream(file);
-        String output = "";
-        int data;
-        while ((data = i.read()) > 0) {
-            if (filter.test((char) data)) {
-                output += (char) data;
+    public synchronized String getContent(Predicate<Character> filter) throws IOException {
+        StringBuilder output = new StringBuilder();
+        try (InputStream i = new FileInputStream(file)) {
+            byte[] buffer = i.readAllBytes();
+            for (byte b : buffer) {
+                if (filter.test((char) b)) {
+                    output.append(b);
+                }
             }
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
-        i.close();
-        return output;
+        return output.toString();
     }
 }

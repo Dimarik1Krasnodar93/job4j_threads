@@ -40,4 +40,3 @@ public class AccountStorage {
         return result;
     }
 }
-

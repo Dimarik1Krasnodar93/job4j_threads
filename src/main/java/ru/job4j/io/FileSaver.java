@@ -12,9 +12,9 @@ public final class FileSaver {
         this.file = file;
     }
 
-    public void saveContent(String content) throws IOException {
+    public synchronized void saveContent(String content) throws IOException {
         OutputStream o = new FileOutputStream(file);
-        for (int i = 0; i < content.length(); i += 1) {
+        for (int i = 0; i < content.length(); i++) {
             o.write(content.charAt(i));
         }
     }
