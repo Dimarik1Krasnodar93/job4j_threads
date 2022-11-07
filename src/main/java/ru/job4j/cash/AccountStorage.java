@@ -17,7 +17,7 @@ public class AccountStorage {
             accounts.put(account.id(), account);
             result = true;
         } else {
-            throw new IllegalStateException("Not found account by id = " + account.id());
+            throw new IllegalStateException("Was found account by id = " + account.id());
         }
         return result;
     }
