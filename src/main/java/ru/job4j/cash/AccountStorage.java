@@ -23,26 +23,16 @@ public class AccountStorage {
     }
 
     public synchronized boolean update(Account account) {
-        boolean result = false;
-        if (!getById(account.id()).isEmpty()) {
-            accounts.put(account.id(), account);
-            result = true;
-        }
-        return result;
+        return accounts.replace(account.id(), account) != null;
     }
 
     public synchronized boolean delete(int id) {
-        boolean result = false;
-        if (!getById(id).isEmpty()) {
-            accounts.remove(id);
-            result = true;
-        }
-        return result;
+        return accounts.remove(id) != null;
     }
 
     public synchronized Optional<Account> getById(int id) {
         Account account = accounts.get(id);
-        return account != null ? Optional.of(account) : Optional.empty();
+        return Optional.ofNullable(account);
     }
 
     public synchronized boolean transfer(int fromId, int toId, int amount) {
