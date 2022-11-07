@@ -4,6 +4,7 @@ import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @ThreadSafe
@@ -12,14 +13,7 @@ public class AccountStorage {
     private final HashMap<Integer, Account> accounts = new HashMap<>();
 
     public synchronized boolean add(Account account) {
-        boolean result = false;
-        if (getById(account.id()).isEmpty()) {
-            accounts.put(account.id(), account);
-            result = true;
-        } else {
-            throw new IllegalStateException("Was found account by id = " + account.id());
-        }
-        return result;
+        return accounts.putIfAbsent(account.id(), account) == null;
     }
 
     public synchronized boolean update(Account account) {
@@ -31,19 +25,16 @@ public class AccountStorage {
     }
 
     public synchronized Optional<Account> getById(int id) {
-        Account account = accounts.get(id);
-        return Optional.ofNullable(account);
+        return Optional.ofNullable(accounts.get(id));
     }
 
     public synchronized boolean transfer(int fromId, int toId, int amount) {
         boolean result = false;
-        Account accountFrom = getById(fromId).orElseThrow();
-        Account accountTo = getById(toId).orElseThrow();
+        Account accountFrom = getById(fromId).orElseThrow(() -> new NoSuchElementException("no such account from"));
+        Account accountTo = getById(toId).orElseThrow(() -> new NoSuchElementException("no such account to"));
         if (accountFrom.amount() >= amount) {
-            accountFrom = new Account(fromId, accountFrom.amount() - amount);
-            accountTo = new Account(toId, accountTo.amount() + amount);
-            accounts.put(fromId, accountFrom);
-            accounts.put(toId, accountTo);
+            accounts.put(fromId, new Account(fromId, accountFrom.amount() - amount));
+            accounts.put(toId, new Account(toId, accountTo.amount() + amount));
             result = true;
         }
         return result;
