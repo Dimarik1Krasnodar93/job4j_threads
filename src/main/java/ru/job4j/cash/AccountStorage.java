@@ -33,8 +33,8 @@ public class AccountStorage {
         Account accountFrom = getById(fromId).orElseThrow(() -> new NoSuchElementException("no such account from"));
         Account accountTo = getById(toId).orElseThrow(() -> new NoSuchElementException("no such account to"));
         if (accountFrom.amount() >= amount) {
-            accounts.put(fromId, new Account(fromId, accountFrom.amount() - amount));
-            accounts.put(toId, new Account(toId, accountTo.amount() + amount));
+            update(new Account(fromId, accountFrom.amount() - amount));
+            update(new Account(toId, accountTo.amount() + amount));
             result = true;
         }
         return result;
