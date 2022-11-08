@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.function.Predicate;
 
 public final class ParseFile {
+    public static final int UNICODE_FILTER = 0x80;
+
     private final File file;
 
     public ParseFile(File file) {
@@ -23,5 +25,13 @@ public final class ParseFile {
             ex.printStackTrace();
         }
         return output.toString();
+    }
+
+    public synchronized String getAllContent() throws IOException {
+        return getContent(i -> true);
+    }
+
+    public synchronized String getUnicodeContent() throws IOException {
+        return getContent(i -> i < UNICODE_FILTER);
     }
 }
