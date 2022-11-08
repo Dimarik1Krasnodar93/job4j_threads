@@ -12,14 +12,15 @@ public class UserCache {
     private final AtomicInteger id = new AtomicInteger();
 
     public synchronized void add(User user) {
-        users.put(id.incrementAndGet(), user);
+        users.put(id.incrementAndGet(), User.of(user.getName()));
     }
 
     public synchronized User findById(int id) {
-        return users.get(id);
+        return
+                User.of(users.get(id).getName());
     }
 
     public synchronized List<User> findAll() {
-        return users.entrySet().stream().map(i -> i.getValue()).collect(Collectors.toList());
+        return users.entrySet().stream().map(i -> User.of(i.getValue().getName())).collect(Collectors.toList());
     }
 }
