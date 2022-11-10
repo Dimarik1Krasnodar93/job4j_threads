@@ -13,7 +13,7 @@ public class SimpleBlockingQueue<T> {
 
     @GuardedBy("this")
     private final Queue<T> queue = new LinkedList<>();
-    private int maxCount;
+    private final int maxCount;
 
     public SimpleBlockingQueue(int maxCount) {
         this.maxCount = maxCount;
