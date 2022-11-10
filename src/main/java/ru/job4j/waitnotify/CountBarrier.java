@@ -11,8 +11,10 @@ public class CountBarrier {
 
     public void count() {
         synchronized (this) {
-            count++;
-            notifyAll();
+            while (count < total) {
+                count++;
+                notifyAll();
+            }
         }
     }
 
