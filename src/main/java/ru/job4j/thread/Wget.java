@@ -31,7 +31,7 @@ public class Wget implements Runnable {
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
                 if (downloadData >= speed) {
                     downloadData += bytesRead;
-                    start = System.currentTimeMillis();
+                    end = System.currentTimeMillis();
                     try {
                         if (end - start < 1000) {
                             Thread.sleep(1000 - (end - start));
