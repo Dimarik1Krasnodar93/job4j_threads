@@ -28,18 +28,8 @@ public class CountBarrier {
 
     public static void main(String[] args) throws Exception {
         CountBarrier countBarrier1 = new CountBarrier(5);
-        Thread thread1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                countBarrier1.count();
-            }
-        });
-        Thread thread2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                countBarrier1.await();
-            }
-        });
+        Thread thread1 = new Thread(() -> countBarrier1.count());
+        Thread thread2 = new Thread(() -> countBarrier1.await());
         thread1.start();
         thread2.start();
         thread1.join();
