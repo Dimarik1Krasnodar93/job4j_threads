@@ -18,7 +18,9 @@ public class ProducerConsumer {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    }});
+                    }
+                }
+                );
         queue.start();
         costumers.start();
         queue.join();
