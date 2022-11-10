@@ -20,27 +20,27 @@ public class SimpleBlockingQueue<T> {
     }
 
     public void offer(T value) throws InterruptedException {
-        while (queue.size() == maxCount) {
-            System.out.println("Offer wait");
-            this.wait();
+        synchronized (this) {
+            while (queue.size() == maxCount) {
+                System.out.println("Offer wait");
+                this.wait();
+            }
+            queue.add(value);
+            System.out.println(String.format("Queue add value, %s", value.toString()));
+            notifyAll();
         }
-        queue.add(value);
-        System.out.println(String.format("Queue add value, %s", value.toString()));
-        notifyAll();
     }
 
-    public T poll() {
-        T result;
-        while (queue.size() == 0) {
-            try {
+    public T poll() throws InterruptedException{
+        synchronized (this) {
+            T result;
+            while (queue.size() == 0) {
                 wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
+            result = queue.poll();
+            System.out.println(String.format("Get poll, %s ", result.toString()));
+            notifyAll();
+            return result;
         }
-        result = queue.poll();
-        System.out.println(String.format("Get poll, %s ", result.toString()));
-        notifyAll();
-        return result;
     }
 }

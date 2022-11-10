@@ -9,7 +9,13 @@ public class ProducerConsumer {
         Iterator iterator = values.iterator();
         SimpleBlockingQueue<Integer> simpleBlockingQueue = new SimpleBlockingQueue(10);
         Thread queue = new Thread(
-                () -> simpleBlockingQueue.poll());
+                () -> {
+                    try {
+                        simpleBlockingQueue.poll();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
         Thread costumers = new Thread(
                 () -> {
                     if (iterator.hasNext()) {
