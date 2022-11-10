@@ -13,55 +13,34 @@ public class SimpleBlockingQueue<T> {
 
     @GuardedBy("this")
     private final Queue<T> queue = new LinkedList<>();
-    private int maxCount = 10;
-
-    private final Object monitor = this;
+    private int maxCount;
 
     public SimpleBlockingQueue(int maxCount) {
         this.maxCount = maxCount;
     }
 
-    public void runqueue(Iterator<T> iterator) {
-        Random random = new Random();
-        for (int i = 0; i < 1000; i++) {
-            if (random.nextInt() % 2 == 0) {
-                while (iterator.hasNext()) {
-                    try {
-                        offer(iterator.next());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else {
-                poll();
-            }
-        }
-    }
-
     public void offer(T value) throws InterruptedException {
-        if (queue.size() == maxCount) {
+        while (queue.size() == maxCount) {
             System.out.println("Offer wait");
             this.wait();
-        } else {
-            queue.add(value);
-            System.out.println(String.format("Queue add value, %s", value.toString()));
         }
+        queue.add(value);
+        System.out.println(String.format("Queue add value, %s", value.toString()));
+        notifyAll();
     }
 
     public T poll() {
-        T result = null;
-        if (queue.size() != 0) {
-            result = queue.poll();
-            System.out.println(String.format("Get poll, %s ", result.toString()));
-            this.notifyAll();
-        } else {
+        T result;
+        while (queue.size() == 0) {
             try {
-                System.out.println("Get poll wait");
-                monitor.wait();
+                wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        result = queue.poll();
+        System.out.println(String.format("Get poll, %s ", result.toString()));
+        notifyAll();
         return result;
     }
 }

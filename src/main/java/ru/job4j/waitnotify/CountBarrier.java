@@ -1,8 +1,6 @@
 package ru.job4j.waitnotify;
 
 public class CountBarrier {
-    private final Object monitor = this;
-
     private final int total;
 
     private int count = 1000;
