@@ -16,12 +16,14 @@ public class CountBarrier {
         }
     }
 
-    public void await() {
-        while (count < total) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    public synchronized void await() {
+        synchronized (this) {
+            while (count < total) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
