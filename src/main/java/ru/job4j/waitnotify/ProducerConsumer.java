@@ -19,11 +19,7 @@ public class ProducerConsumer {
         Thread costumers = new Thread(
                 () -> {
                     if (iterator.hasNext()) {
-                        try {
-                            simpleBlockingQueue.offer(values.iterator().next());
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        simpleBlockingQueue.offer(values.iterator().next());
                     }
                 }
                 );

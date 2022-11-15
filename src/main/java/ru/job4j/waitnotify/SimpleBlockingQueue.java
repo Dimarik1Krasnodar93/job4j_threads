@@ -19,14 +19,26 @@ public class SimpleBlockingQueue<T> {
         this.maxCount = maxCount;
     }
 
-    public void offer(T value) throws InterruptedException {
+    public void offer(T value)  {
         synchronized (this) {
             while (queue.size() == maxCount) {
-                this.wait();
+                try {
+                    this.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             queue.add(value);
             notifyAll();
         }
+    }
+
+    public boolean isEmpty() {
+        return queue.isEmpty();
+    }
+
+    public int size() {
+        return queue.size();
     }
 
     public T poll() throws InterruptedException {

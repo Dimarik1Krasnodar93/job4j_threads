@@ -5,7 +5,7 @@ import ru.job4j.waitnotify.SimpleBlockingQueue;
 public class ParallelSearch {
 
     public static void main(String[] args) {
-        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(11);
+        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(10);
         final Thread consumer = new Thread(
                 () -> {
                     while (true) {
@@ -22,11 +22,7 @@ public class ParallelSearch {
         new Thread(
                 () -> {
                     for (int index = 0; index != 3; index++) {
-                        try {
-                            queue.offer(index);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        queue.offer(index);
                         try {
                             Thread.sleep(500);
                         } catch (InterruptedException e) {
