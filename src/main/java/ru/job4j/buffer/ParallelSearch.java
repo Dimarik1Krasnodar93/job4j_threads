@@ -5,10 +5,7 @@ import ru.job4j.waitnotify.SimpleBlockingQueue;
 public class ParallelSearch {
 
     public static void main(String[] args) {
-        System.out.println("Commit for task git: 3.1. Добавить изменения в последний коммит. [#504829]");
-        System.out.println("1Commit for task git: 3.1. Добавить изменения в последний коммит. [#504830]");
-        System.out.println("2Commit for task git: 3.1. Добавить изменения в последний коммит. [#504830]");
-        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(10);
+        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(11);
         final Thread consumer = new Thread(
                 () -> {
                     while (true) {
