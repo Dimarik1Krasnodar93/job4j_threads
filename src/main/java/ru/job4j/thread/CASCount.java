@@ -2,15 +2,16 @@ package ru.job4j.thread;
 
 import net.jcip.annotations.ThreadSafe;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 @ThreadSafe
 public class CASCount {
-    private final AtomicReference<Integer> count = new AtomicReference<>(0);
+    private final AtomicInteger count = new AtomicInteger(0);
 
     public void increment() {
         Integer temp;
-        Integer tempNew;
+        int tempNew;
         do {
             temp = count.get();
             tempNew = temp + 1;
