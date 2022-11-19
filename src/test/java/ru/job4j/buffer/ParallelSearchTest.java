@@ -67,7 +67,6 @@ class ParallelSearchTest {
         producer.join();
         consumer.interrupt();
         consumer.join();
-
         assertThat(buffer).isEqualTo(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
     }
 }
