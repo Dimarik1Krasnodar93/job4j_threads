@@ -17,11 +17,10 @@ class ParallelSearchTest {
         final CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
         final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(10);
         Thread producer = new Thread(
-                () -> {
-                    IntStream.range(0, 5).forEach(
-                            queue::offer
-                    );
-                }
+                () -> IntStream.range(0, 5).forEach(
+                        queue::offer
+                )
+
         );
         producer.start();
         Thread consumer = new Thread(
@@ -60,8 +59,6 @@ class ParallelSearchTest {
                         try {
                             buffer.add(queue.poll());
                         } catch (InterruptedException e) {
-                            System.out.println("size = " + queue.size() + ", interrupted: " + Thread.currentThread().isInterrupted());
-                            e.printStackTrace();
                             Thread.currentThread().interrupt();
                         }
                     }

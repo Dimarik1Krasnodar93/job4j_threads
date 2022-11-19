@@ -17,13 +17,13 @@ public class SimpleBlockingQueue<T> {
         this.maxCount = maxCount;
     }
 
-    public void offer(T value)  {
+    public void offer(T value) {
         synchronized (this) {
             while (queue.size() == maxCount) {
                 try {
                     this.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                } catch (Exception ex) {
+                    continue;
                 }
             }
             queue.add(value);
