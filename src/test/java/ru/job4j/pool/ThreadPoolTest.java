@@ -11,7 +11,9 @@ class ThreadPoolTest {
     @Test
     void testPool() {
         ThreadPool threadPool = new ThreadPool();
-        threadPool.workAllThreads();
+        for (Thread thread : threadPool.threads()) {
+            threadPool.work(thread);
+        }
         int expected = Runtime.getRuntime().availableProcessors();
         threadPool.shutdown();
         assertThat(threadPool.tasks().size()).isEqualTo(expected);
