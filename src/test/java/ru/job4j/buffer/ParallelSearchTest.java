@@ -18,7 +18,13 @@ class ParallelSearchTest {
         final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(10);
         Thread producer = new Thread(
                 () -> IntStream.range(0, 5).forEach(
-                        queue::offer
+                        i -> {
+                            try {
+                                queue.offer(i);
+                            } catch (InterruptedException ex) {
+
+                            }
+                        }
                 )
 
         );
@@ -48,7 +54,13 @@ class ParallelSearchTest {
         Thread producer = new Thread(
                 () -> {
                     IntStream.range(1, 10).forEach(
-                            queue::offer
+                            i -> {
+                                try {
+                                    queue.offer(i);
+                                } catch (InterruptedException ex) {
+
+                                }
+                            }
                     );
                 }
         );
