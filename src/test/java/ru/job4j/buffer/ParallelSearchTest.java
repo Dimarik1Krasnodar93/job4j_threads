@@ -26,7 +26,6 @@ class ParallelSearchTest {
                             }
                         }
                 )
-
         );
         producer.start();
         Thread consumer = new Thread(
