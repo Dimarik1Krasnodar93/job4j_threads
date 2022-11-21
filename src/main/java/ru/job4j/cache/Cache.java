@@ -16,9 +16,8 @@ public class Cache {
                 throw new OptimisticException("Versions are not equal");
 
             }
-            value.setName(model.getName());
-            value.incrementVersion();
-            return value;
+           Base base = new Base(key, value.getVersion() + 1, model.getName());
+            return base;
         }) != null;
     }
 

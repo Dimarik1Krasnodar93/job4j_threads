@@ -27,7 +27,4 @@ public class Base {
         this.name = name;
     }
 
-    public void incrementVersion() {
-        this.version++;
-    }
 }

@@ -39,8 +39,7 @@ class CacheTest {
         Cache cache = new Cache();
         Base base1 = new Base(1, 0, "1");
         cache.add(base1);
-        base1.incrementVersion();
-        assertThatThrownBy(() -> cache.update(new Base(1, 0, "2"))).isInstanceOf(OptimisticException.class);
+        assertThatThrownBy(() -> cache.update(new Base(1, 1, "2"))).isInstanceOf(OptimisticException.class);
 
     }
 }
