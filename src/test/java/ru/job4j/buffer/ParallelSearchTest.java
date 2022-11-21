@@ -57,7 +57,7 @@ class ParallelSearchTest {
                                 try {
                                     queue.offer(i);
                                 } catch (InterruptedException ex) {
-
+                                    Thread.currentThread().interrupt();
                                 }
                             }
                     );

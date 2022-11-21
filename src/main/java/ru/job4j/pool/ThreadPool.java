@@ -28,12 +28,8 @@ public class ThreadPool {
         return threads;
     }
 
-    public void work(Runnable job) {
-        try {
-            tasks.offer(job);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void work(Runnable job) throws InterruptedException {
+        tasks.offer(job);
     }
 
     public void shutdown() {

@@ -12,7 +12,11 @@ class ThreadPoolTest {
     void testPool() {
         ThreadPool threadPool = new ThreadPool();
         for (Thread thread : threadPool.threads()) {
-            threadPool.work(thread);
+            try {
+                threadPool.work(thread);
+            } catch (InterruptedException e) {
+                thread.interrupt();
+            }
         }
         int expected = Runtime.getRuntime().availableProcessors();
         threadPool.shutdown();
