@@ -13,11 +13,7 @@ public class ThreadPool {
     private int size = Runtime.getRuntime().availableProcessors();
 
     public ThreadPool() {
-        for (int i = 0; i < size; i++) {
-            Thread thread = new Thread();
-            thread.start();
-            threads.add(thread);
-        }
+        init();
     }
 
     public SimpleBlockingQueue<Runnable> tasks() {
@@ -36,6 +32,20 @@ public class ThreadPool {
         for (Thread thread : threads) {
             thread.interrupt();
         }
+    }
+
+    private void init() {
+        Thread thread = new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    tasks.poll().run();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        });
+        thread.start();
+        threads.add(thread);
     }
 
 }

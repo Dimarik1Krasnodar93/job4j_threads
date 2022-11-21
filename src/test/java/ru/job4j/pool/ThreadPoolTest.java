@@ -18,7 +18,7 @@ class ThreadPoolTest {
                 thread.interrupt();
             }
         }
-        int expected = Runtime.getRuntime().availableProcessors();
+        int expected = 1;
         threadPool.shutdown();
         assertThat(threadPool.tasks().size()).isEqualTo(expected);
     }
