@@ -14,11 +14,12 @@ import static org.assertj.core.api.Assertions.*;
 class RolColSumTest {
     private static int[][] matrix1;
     private static int[][] matrix2;
-    RolColSum.Sums[] sumsExpected1;
-    RolColSum.Sums[] sumsExpected2;
 
-    @BeforeEach
-    public void init() {
+
+
+    @Test
+    public void testMatrix2x2() {
+        Sums[] sumsExpected1;
         matrix1 = new int[2][];
         matrix1[0] = new int[2];
         matrix1[1] = new int[2];
@@ -26,13 +27,22 @@ class RolColSumTest {
         matrix1[0][1] = 2;
         matrix1[1][0] = 3;
         matrix1[1][1] = 4;
-        sumsExpected1 = new RolColSum.Sums[2];
-        sumsExpected1[0] = new RolColSum.Sums();
-        sumsExpected1[1] = new RolColSum.Sums();
+        sumsExpected1 = new Sums[2];
+        sumsExpected1[0] = new Sums();
+        sumsExpected1[1] = new Sums();
         sumsExpected1[0].setRowSum(3);
         sumsExpected1[1].setRowSum(7);
         sumsExpected1[0].setColSum(4);
         sumsExpected1[1].setColSum(6);
+        Sums[] sums = RolColSum.sum(matrix1);
+        assertThat(sums).isEqualTo(sumsExpected1);
+        sums = RolColSum.asyncSum(matrix1);
+        assertThat(sums).isEqualTo(sumsExpected1);
+    }
+
+    @Test
+    public void testMatrix3x3() {
+        Sums[] sumsExpected2;
         matrix2 = new int[3][];
         matrix2[0] = new int[3];
         matrix2[1] = new int[3];
@@ -46,44 +56,20 @@ class RolColSumTest {
         matrix2[2][0] = 0;
         matrix2[2][1] = 0;
         matrix2[2][2] = 1;
-        sumsExpected2 = new RolColSum.Sums[3];
-        sumsExpected2[0] = new RolColSum.Sums();
-        sumsExpected2[1] = new RolColSum.Sums();
-        sumsExpected2[2] = new RolColSum.Sums();
+        sumsExpected2 = new Sums[3];
+        sumsExpected2[0] = new Sums();
+        sumsExpected2[1] = new Sums();
+        sumsExpected2[2] = new Sums();
         sumsExpected2[0].setRowSum(3);
         sumsExpected2[1].setRowSum(7);
         sumsExpected2[2].setRowSum(1);
         sumsExpected2[0].setColSum(4);
         sumsExpected2[1].setColSum(6);
         sumsExpected2[2].setColSum(1);
+        Sums[] sums = RolColSum.sum(matrix2);
+        assertThat(sums).isEqualTo(sumsExpected2);
+        sums = RolColSum.asyncSum(matrix2);
+        assertThat(sums).isEqualTo(sumsExpected2);
     }
 
-    @Test
-    public void testMatrix2x2() {
-        plusTest(matrix1, sumsExpected1);
-    }
-
-    @Test
-    public void testMatrix3x3() {
-        plusTest(matrix2, sumsExpected2);
-    }
-
-    @ParameterizedTest
-    @MethodSource("plusTestSuites")
-    public void plusTest(int[][] matrix, RolColSum.Sums[] sumsExpected) {
-        RolColSum.Sums[] sums = RolColSum.sum(matrix);
-        assertThat(sums).isEqualTo(sumsExpected);
-        sums = RolColSum.asyncSum(matrix);
-        assertThat(sums).isEqualTo(sumsExpected);
-    }
-
-    public static List<Arguments> plusTestSuites() {
-        RolColSum.Sums[] sums1 = new RolColSum.Sums[matrix1.length];
-        RolColSum.Sums[] sums2 = new RolColSum.Sums[matrix2.length];
-
-        return List.of(
-                Arguments.of(matrix1, sums1),
-                Arguments.of(matrix2, sums2)
-        );
-    }
 }
