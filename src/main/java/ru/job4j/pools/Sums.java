@@ -1,19 +1,26 @@
 package ru.job4j.pools;
 
+import java.util.Objects;
+
 public class Sums {
     private int rowSum;
     private int colSum;
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(rowSum, colSum);
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
         Sums sums = (Sums) obj;
         return rowSum == sums.getRowSum() && colSum == sums.getColSum();
-
     }
 
     public int getRowSum() {

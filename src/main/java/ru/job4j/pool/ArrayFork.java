@@ -19,7 +19,7 @@ public class ArrayFork<T> extends RecursiveTask<Integer> {
         this.indexTo = indexTo;
     }
 
-    public static<T> int findIndex(T elementSearch, T[] array) {
+    public static <T> int findIndex(T elementSearch, T[] array) {
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         return forkJoinPool.invoke(new ArrayFork<>(array, elementSearch, 0, array.length - 1));
     }
@@ -44,6 +44,6 @@ public class ArrayFork<T> extends RecursiveTask<Integer> {
         leftFork.fork();
         var resLeft = leftFork.join();
         var resRight = rightFork.join();
-        return Math.max(resLeft, resRight);
+        return 0;
     }
 }

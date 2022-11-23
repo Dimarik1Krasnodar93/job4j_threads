@@ -17,10 +17,6 @@ class ArrayForkTest {
 
     @Before
     void init() {
-        array = new int[SIZE_ELEMENTS];
-        Random random = new Random(ArrayFork.MAX_VALUE);
-        for (int i = 0; i < array.length; i++) {
-            array[i] = random.nextInt();
-        }
+
     }
 }
