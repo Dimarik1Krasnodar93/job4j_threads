@@ -23,13 +23,4 @@ class ArrayForkTest {
             array[i] = random.nextInt();
         }
     }
-
-    @Test
-    void findIndex() {
-        init();
-//        ArrayFork arrayFork = new ArrayFork(array);
-//        int result = arrayFork.findIndex(array[123]);
-//        int expected = array[123];
-//        assertThat(result).isEqualTo(expected);
-    }
 }
