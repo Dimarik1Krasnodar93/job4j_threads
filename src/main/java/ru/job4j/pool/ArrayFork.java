@@ -34,13 +34,12 @@ public class ArrayFork<T> extends RecursiveTask<Integer> {
     }
 
 
-    public int findIndex( T elementSearch) {
+    public int findIndex(T elementSearch) {
         this.elementSearch = elementSearch;
-        return forkJoinPool.invoke(new ArrayFork(array));
+        return 0;
     }
 
     int findLine(int from, int to) {
-
         for (int i = from; i <= to; i++) {
             if (elementSearch.equals(array[i])) {
                 return i;
@@ -58,7 +57,7 @@ public class ArrayFork<T> extends RecursiveTask<Integer> {
         ArrayFork leftFork = new ArrayFork(array, elementSearch, indexFrom, middle);
         ArrayFork rightFork = new ArrayFork(array, elementSearch, middle + 1, indexTo);
         leftFork.fork();
-        Integer resLeft = leftFork.join();
+        var resLeft = leftFork.join();
         Integer resRight = rightFork.compute();
         return Math.max((int) resLeft, (int) resRight);
     }
