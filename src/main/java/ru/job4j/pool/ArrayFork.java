@@ -24,7 +24,7 @@ public class ArrayFork<T> extends RecursiveTask<Integer> {
         return forkJoinPool.invoke(new ArrayFork<>(array, elementSearch, 0, array.length - 1));
     }
 
-    int findLine() {
+    private int findLine() {
         for (int i = indexFrom; i <= indexTo; i++) {
             if (elementSearch.equals(array[i])) {
                 return i;
@@ -39,11 +39,13 @@ public class ArrayFork<T> extends RecursiveTask<Integer> {
             return findLine();
         }
         int middle = (indexFrom + indexTo) / 2;
-        ArrayFork leftFork = new ArrayFork(array, elementSearch, indexFrom, middle);
-        ArrayFork rightFork = new ArrayFork(array, elementSearch, middle + 1, indexTo);
+        ArrayFork<T> leftFork = new ArrayFork<>(array, elementSearch, indexFrom, middle);
+        ArrayFork<T> rightFork = new ArrayFork<>(array, elementSearch, middle + 1, indexTo);
         leftFork.fork();
+        rightFork.fork();
         var resLeft = leftFork.join();
         var resRight = rightFork.join();
-        return 0;
+        return Math.max(resLeft, resRight);
     }
 }
+
